@@ -1,28 +1,4 @@
-// import "./App.css";
-// import Navbar from "./Component/Navbar";
-// import Hero from "./Component/Hero";
-// import Featured from "./Component/Featured";
-
-
-
-
-// function App() {
-  
-
-//   return (
-//     <>
-//       <div>
-//       <Navbar />
-//       <Hero />
-//       <Featured />
-      
-//       </div>
-      
-//     </>
-//   )
-// }
-
-// export default App
+import "./App.css";
 import {useState, useEffect} from "react";
 import Navbar from "./Component/Navbar";
 import Featured from "./Component/Featured";
@@ -34,6 +10,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Product from "./Component/ProductComponent";
 import Hero from "./Component/Hero";
+import Explore from "./Component/Explore"
+import Footer from "./Component/Footer";
 function App() {
   
     const [currentCategory, setCurrentCategory] = useState("women's clothing");
@@ -58,6 +36,8 @@ function App() {
             <Route path="/" element={<Product category= {currentCategory} changeCategory= {changeCategory}  />} />
             <Route path="/cart" element={<Mybag />} />
           </Routes>
+          <Explore />
+          <Footer />
 
         </BrowserRouter>
       </Provider>

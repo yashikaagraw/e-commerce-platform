@@ -67,10 +67,15 @@ const Featured = () => {
             <p>BEST OFFERS</p>
             <p>Featured</p>
           </div>
-          <div className="category">
+          {/* <div className="category">
           <button className="border-2 border-purple-500 px-8 hover:bg-purple-500 rounded-md hover:text-white" onClick={()=>filterItems("women's clothing")}>Women's</button>
           <button className="border-2 border-purple-500 px-8 hover:bg-purple-500 rounded-md hover:text-white" onClick={()=>filterItems("men's clothing")}>Men's</button>
           <button className="border-2 border-purple-500 px-8 hover:bg-purple-500 rounded-md hover:text-white" onClick={()=>filterItems("electronics")}>Electronics </button>
+          </div> */}
+          <div className="category">
+          <button className onClick={()=>filterItems("women's clothing")}>Women's</button>
+          <button className onClick={()=>filterItems("men's clothing")}>Men's</button>
+          <button className onClick={()=>filterItems("electronics")}>Electronics </button>
           </div>
         </div>
         <div className="CateoryProducts">
