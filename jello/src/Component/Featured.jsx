@@ -1,8 +1,11 @@
 import React from "react";
 import productImg from "../assets/Offers/productImg.png";
+import { useState, useEffect } from "react";
+import { add } from "../store/cartSlice";
+import { useDispatch } from "react-redux";
 
 const Featured = () => {
-  let products = [
+  let productList = [
     {
       id: 1,
       img: productImg,
@@ -32,6 +35,30 @@ const Featured = () => {
       price: 1000,
     },
   ];
+
+  const dispatch = useDispatch();
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    const fetchProducts = () => {
+      fetch("https://fakestoreapi.com/products")
+        .then((res) => res.json())
+        .then((json) => setProducts(json));
+    };
+    fetchProducts();
+  }, []);
+
+  const handleAdd = (product) => {
+    dispatch(add(product));
+    console.log(product);
+  };
+
+  const filterItems = (cateItem)=>{
+    const updatedItems = products.filter((curItem)=>{
+      return curItem.category === cateItem
+    })
+    setProducts(updatedItems)
+  } 
+
   return (
     <div className="wrapper">
       <div className="offerSection">
@@ -41,9 +68,9 @@ const Featured = () => {
             <p>Featured</p>
           </div>
           <div className="category">
-            <button className="categoryBtn">Women</button>
-            <button className="categoryBtn">Men</button>
-            <button className="categoryBtn">Electronics</button>
+          <button className="border-2 border-purple-500 px-8 hover:bg-purple-500 rounded-md hover:text-white" onClick={()=>filterItems("women's clothing")}>Women's</button>
+          <button className="border-2 border-purple-500 px-8 hover:bg-purple-500 rounded-md hover:text-white" onClick={()=>filterItems("men's clothing")}>Men's</button>
+          <button className="border-2 border-purple-500 px-8 hover:bg-purple-500 rounded-md hover:text-white" onClick={()=>filterItems("electronics")}>Electronics </button>
           </div>
         </div>
         <div className="CateoryProducts">
@@ -55,8 +82,12 @@ const Featured = () => {
                 <p>{item.offer}</p>
                 <div className="pricebox">
                   <p id="productPrice">₹ {item.price}</p>
-                  <button id="addToCartBtn">Add To Cart</button>
-                </div>
+                  <button
+                    className="bg-purple-500 p-2 rounded-xl my-4 flex justify-center items-center"
+                    onClick={() => handleAdd(product)}
+                  >
+                    Add to Cart
+                  </button>                </div>
               </div>
             );
           })}
