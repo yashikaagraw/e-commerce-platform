@@ -16,6 +16,7 @@ const Hero = () => {
           className="search"
           placeholder="Search your favorite clothing"
         />
+
       </div>
       <div className="heroBackground"></div>
 
