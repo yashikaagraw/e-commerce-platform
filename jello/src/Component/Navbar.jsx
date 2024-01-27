@@ -1,33 +1,39 @@
-// 
-
-
-// const Navbar = () => {
-//   return (
-//    
-//   );
-// };
-
-// export default Navbar;
-import React from "react";
 import { FaCartShopping } from "react-icons/fa6";
-import logo from "../assets/HeroPage/logo.png";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const Nav = () => {
+const Navbar = () => {
   const items = useSelector((state) => state.cart);
   return (
-  
-    <div className="md:px-10 md:py-5 py-5 flex justify-around shadow-md sticky top-0 bg-white text-2xl ">
-    <h1 className="font-bold text-purple-600 animate-bounce"></h1>
-      <div className="flex justify-end gap-24">
-        <Link to={"/"}>Home</Link>
-        <Link to={"/cart"}>
-          My Bag: &nbsp;
-          <span>{items.cartItems.length}</span>
-        </Link>
-      </div>
+    <div className="wrapper">
+      <nav>
+        <div className="logo">
+          <h1 style={{ color: "#eb6d27" }}>
+            <Link to={"/"} style={{ color: "#eb6d27", textDecoration: "none" }}>
+              jello
+            </Link>
+          </h1>
+        </div>
+        <div className="cart">
+          <Link
+            to={"/cart"}
+            style={{
+              textDecoration: "none",
+              display: "flex",
+              gap: 15,
+              alignItems: "center",
+            }}
+          >
+            <div className="cartIcon">
+              <FaCartShopping color="#EB6D27" size={40} />
+              <span id="cartItemCountNav">{items.cartItems.length}</span>
+            </div>
+            <p>Cart</p>
+          </Link>
+        </div>
+      </nav>
     </div>
   );
 };
-export default Nav;
+
+export default Navbar;

@@ -19,7 +19,9 @@ const Explore = () => {
         </div>
         <div className="exploreRightChild">
           <p style={{ color: "#eb6d27" }}> EXPLORE NOW </p>
-          <p style={{ fontSize: "42px", fontWeight: "bold" }}>
+          <p
+            style={{ fontSize: "42px", marginTop: "-40px", fontWeight: "bold" }}
+          >
             Latest Women <br />
             Clothing
           </p>

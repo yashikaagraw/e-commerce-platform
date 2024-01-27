@@ -1,63 +1,36 @@
-import React from "react";
-import productImg from "../assets/Offers/productImg.png";
 import { useState, useEffect } from "react";
 import { add } from "../store/cartSlice";
 import { useDispatch } from "react-redux";
+import { FaStar } from "react-icons/fa6";
 
 const Featured = () => {
-  let productList = [
-    {
-      id: 1,
-      img: productImg,
-      name: "Co Ord Sets",
-      offer: "Get 50% on Winter sets",
-      price: 1000,
-    },
-    {
-      id: 1,
-      img: productImg,
-      name: "Co Ord Sets",
-      offer: "Get 50% on Winter sets",
-      price: 1000,
-    },
-    {
-      id: 1,
-      img: productImg,
-      name: "Co Ord Sets",
-      offer: "Get 50% on Winter sets",
-      price: 1000,
-    },
-    {
-      id: 1,
-      img: productImg,
-      name: "Co Ord Sets",
-      offer: "Get 50% on Winter sets",
-      price: 1000,
-    },
-  ];
-
   const dispatch = useDispatch();
-  const [products, setProducts] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("women's clothing");
+
   useEffect(() => {
     const fetchProducts = () => {
       fetch("https://fakestoreapi.com/products")
         .then((res) => res.json())
-        .then((json) => setProducts(json));
+        .then((json) => {
+          setAllProducts(json);
+          setFilteredProducts(
+            json.filter((item) => item.category === selectedCategory)
+          );
+        });
     };
     fetchProducts();
-  }, []);
+  }, [selectedCategory]);
 
   const handleAdd = (product) => {
     dispatch(add(product));
     console.log(product);
   };
 
-  const filterItems = (cateItem)=>{
-    const updatedItems = products.filter((curItem)=>{
-      return curItem.category === cateItem
-    })
-    setProducts(updatedItems)
-  } 
+  const filterItems = (cateItem) => {
+    setSelectedCategory(cateItem);
+  };
 
   return (
     <div className="wrapper">
@@ -67,32 +40,71 @@ const Featured = () => {
             <p>BEST OFFERS</p>
             <p>Featured</p>
           </div>
-          {/* <div className="category">
-          <button className="border-2 border-purple-500 px-8 hover:bg-purple-500 rounded-md hover:text-white" onClick={()=>filterItems("women's clothing")}>Women's</button>
-          <button className="border-2 border-purple-500 px-8 hover:bg-purple-500 rounded-md hover:text-white" onClick={()=>filterItems("men's clothing")}>Men's</button>
-          <button className="border-2 border-purple-500 px-8 hover:bg-purple-500 rounded-md hover:text-white" onClick={()=>filterItems("electronics")}>Electronics </button>
-          </div> */}
           <div className="category">
-          <button className onClick={()=>filterItems("women's clothing")}>Women's</button>
-          <button className onClick={()=>filterItems("men's clothing")}>Men's</button>
-          <button className onClick={()=>filterItems("electronics")}>Electronics </button>
+            <button
+              className={`categoryBtn ${
+                selectedCategory === "women's clothing" ? "active" : ""
+              }`}
+              style={{
+                background:
+                  selectedCategory === "women's clothing" ? "#eb6d27" : "",
+                color: selectedCategory === "women's clothing" ? "white" : "",
+              }}
+              onClick={() => filterItems("women's clothing")}
+            >
+              Women
+            </button>
+            <button
+              className={`categoryBtn ${
+                selectedCategory === "men's clothing" ? "active" : ""
+              }`}
+              style={{
+                background:
+                  selectedCategory === "men's clothing" ? "#eb6d27" : "",
+                color: selectedCategory === "men's clothing" ? "white" : "",
+              }}
+              onClick={() => filterItems("men's clothing")}
+            >
+              Men
+            </button>
+            <button
+              className={`categoryBtn ${
+                selectedCategory === "electronics" ? "active" : ""
+              }`}
+              style={{
+                background: selectedCategory === "electronics" ? "#eb6d27" : "",
+                color: selectedCategory === "electronics" ? "white" : "",
+              }}
+              onClick={() => filterItems("electronics")}
+            >
+              Electronics
+            </button>
           </div>
         </div>
         <div className="CateoryProducts">
-          {products.map((item) => {
+          {filteredProducts.slice(0, 4).map((item) => {
             return (
               <div key={item.id} className="product">
-                <img src={item.img} alt="" className="productImg" />
-                <p style={{ fontWeight: "bolder" }}>{item.name}</p>
-                <p>{item.offer}</p>
-                <div className="pricebox">
-                  <p id="productPrice">₹ {item.price}</p>
-                  <button
-                    className="bg-purple-500 p-2 rounded-xl my-4 flex justify-center items-center"
-                    onClick={() => handleAdd(product)}
+                <img src={item.image} alt="" className="productImg" />
+                <p style={{ fontWeight: "bolder" }}>{item.title}</p>
+                <div className="productRating">
+                  <p
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "5px",
+                    }}
                   >
+                    Ratings : {item.rating.rate} <FaStar color="gold" />
+                  </p>
+                  <p>Count : {item.rating.count}</p>
+                </div>
+                <div className="pricebox">
+                  <p id="productPrice">$ {item.price}</p>
+                  <button id="addToCartBtn" onClick={() => handleAdd(item)}>
                     Add to Cart
-                  </button>                </div>
+                  </button>{" "}
+                </div>
               </div>
             );
           })}
